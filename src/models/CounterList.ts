@@ -20,7 +20,7 @@ export const Meter = types.model("Meter", {
     area: Area,
     is_automatic: types.maybeNull(types.boolean),
     communication: types.string,
-    description: types.string,
+    description: types.maybe(types.string),
     serial_number: types.string,
     installation_date: types.string,
     brand_name: types.maybeNull(types.string),

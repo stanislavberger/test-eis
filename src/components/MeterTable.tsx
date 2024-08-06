@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../store";
+import icon_cold from "../assets/img/icon_counters_1.svg"
+import icon_hot from "../assets/img/icon_counters_4.svg"
 import MeterItem from "./MeterItem";
 
 const ITEMS_PER_PAGE = 20;
@@ -81,21 +83,26 @@ const MeterTable: React.FC = observer(() => {
               <th><h4>Текущие показания</h4></th>
               <th><h4>Адрес</h4></th>
               <th><h4>Примечания</h4></th>
-              <th><h4>Actions</h4></th>
+              <th><h4>Действия</h4></th>
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((data, index) => (
               <tr key={index}>
                 <td className="el_center">{startIndex + index + 1}</td>
-                <td className="el_center">{data.type}</td>
+                <td className="el_center">
+                  <div className="_type">
+                    <img src={data.type === "ГВС" ? icon_hot : icon_cold} alt="" />
+                    <p>{data.type}</p>
+                  </div>
+                </td>
                 <td className="el_center">{data.installationDate.toLocaleDateString()}</td>
                 <td className="el_center">{data.isAutomatic}</td>
                 <td className="el_center">{data.initialValues}</td>
                 <td className="el_center">{data.address}</td>
                 <td className="el_center">{data.description}</td>
                 <td className="el_center">
-                  
+                  <img src={icon_cold} alt="" />
                 </td>
               </tr>
             ))}
