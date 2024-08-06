@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "../store";
 import icon_cold from "../assets/img/icon_counters_1.svg"
 import icon_hot from "../assets/img/icon_counters_4.svg"
-import MeterItem from "./MeterItem";
+import icon_trash from "../assets/img/trash.svg"
 
 const ITEMS_PER_PAGE = 20;
 const PAGE_NUMBERS_TO_SHOW = 6; // Количество страниц для отображения
@@ -102,7 +102,7 @@ const MeterTable: React.FC = observer(() => {
                 <td className="el_center">{data.address}</td>
                 <td className="el_center">{data.description}</td>
                 <td className="el_center">
-                  <img src={icon_cold} alt="" />
+                  <img src={icon_trash} alt="" />
                 </td>
               </tr>
             ))}
