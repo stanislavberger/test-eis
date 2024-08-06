@@ -73,31 +73,7 @@ const RootModel = types
         }
     }),
 
-    nextPageMeters() {
-      if (self.currentPageMeters * self.limit < self.totalMeters) {
-            self.fetchMeters(self.currentPageMeters + 1);
-          }
-      },
-
-      previousPageMeters() {
-          if (self.currentPageMeters > 1) {
-              self.fetchMeters(self.currentPageMeters - 1);
-          }
-      },
-
-      nextPageAreas(ids) {
-        if (self.currentPageAreas * self.limit < self.totalAreas) {
-            self.fetchAreas(ids, self.currentPageAreas + 1);
-          }
-      },
-
-      previousPageAreas(ids) {
-          if (self.currentPageAreas > 1) {
-              self.fetchAreas(ids, self.currentPageAreas - 1);
-          }
-      }
-
-    }));
+}));
 
 export interface IRootModel extends Instance<typeof RootModel> {}
 
