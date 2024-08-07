@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { useStore } from "../store";
-import icon_cold from "../assets/img/icon_counters_1.svg"
-import icon_hot from "../assets/img/icon_counters_4.svg"
-import icon_trash from "../assets/img/trash.svg"
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../store';
+import icon_cold from '../assets/img/icon_counters_1.svg';
+import icon_hot from '../assets/img/icon_counters_4.svg';
+import icon_trash from '../assets/img/trash.svg';
 
+const ITEMS_PER_PAGE = 20; //quantity of elements
+const PAGE_NUMBERS_TO_SHOW = 6; // quantity of pages
 
-const ITEMS_PER_PAGE = 20;
-const PAGE_NUMBERS_TO_SHOW = 6;
 
 const MeterTable: React.FC = observer(() => {
   const store = useStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [startPage, setStartPage] = useState(1);
 
-  const ids = store.meters.map(meter => meter.area.id);
-  const limit = store.limit
+  const ids = store.meters.map((meter) => meter.area.id);
+  const limit = store.limit;
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   useEffect(() => {
@@ -25,10 +25,10 @@ const MeterTable: React.FC = observer(() => {
 
   // Address from /test/areas
   const getHouseDetails = (areaId: string) => {
-    const area = store.areas.find(area => area.id === areaId);
+    const area = store.areas.find((area) => area.id === areaId);
     return {
       address: area && area.house ? area.house.address : 'N/A',
-      strNumberFull: area ? area.str_number_full : 'N/A'
+      strNumberFull: area ? area.str_number_full : 'N/A',
     };
   };
 
@@ -37,9 +37,9 @@ const MeterTable: React.FC = observer(() => {
     const { address, strNumberFull } = getHouseDetails(meter.area.id);
     return {
       index: index + 1,
-      type: meter._type.includes("ColdWaterAreaMeter") ? "ХВС" : "ГВС",
+      type: meter._type.includes('ColdWaterAreaMeter') ? 'ХВС' : 'ГВС',
       installationDate: new Date(meter.installation_date),
-      isAutomatic: meter.is_automatic ? "Да" : "Нет",
+      isAutomatic: meter.is_automatic ? 'Да' : 'Нет',
       initialValues: meter.initial_values.join(', '),
       address: `${address}, ${strNumberFull}`,
       description: meter.description,
@@ -86,14 +86,30 @@ const MeterTable: React.FC = observer(() => {
         <table>
           <thead>
             <tr>
-              <th><h4>№</h4></th>
-              <th><h4>Тип</h4></th>
-              <th><h4>Дата установки</h4></th>
-              <th><h4>Автоматический</h4></th>
-              <th><h4>Текущие показания</h4></th>
-              <th><h4>Адрес</h4></th>
-              <th><h4>Примечания</h4></th>
-              <th><h4>Действия</h4></th>
+              <th>
+                <h4>№</h4>
+              </th>
+              <th>
+                <h4>Тип</h4>
+              </th>
+              <th>
+                <h4>Дата установки</h4>
+              </th>
+              <th>
+                <h4>Автоматический</h4>
+              </th>
+              <th>
+                <h4>Текущие показания</h4>
+              </th>
+              <th>
+                <h4>Адрес</h4>
+              </th>
+              <th>
+                <h4>Примечания</h4>
+              </th>
+              <th>
+                <h4>Действия</h4>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -102,19 +118,25 @@ const MeterTable: React.FC = observer(() => {
                 <td className="el_center">{startIndex + index + 1}</td>
                 <td className="el_center">
                   <div className="_type">
-                    <img src={data.type === "ГВС" ? icon_hot : icon_cold} alt="" />
+                    <img
+                      src={data.type === 'ГВС' ? icon_hot : icon_cold}
+                      alt=""
+                    />
                     <p>{data.type}</p>
                   </div>
                 </td>
-                <td className="el_center">{data.installationDate.toLocaleDateString()}</td>
+                <td className="el_center">
+                  {data.installationDate.toLocaleDateString()}
+                </td>
                 <td className="el_center">{data.isAutomatic}</td>
                 <td className="el_center">{data.initialValues}</td>
                 <td className="el_center">{data.address}</td>
                 <td className="el_center">{data.description}</td>
                 <td className="el_center">
-                  <button className="delete-btn" onClick={() => handleDelete(data.id)}>
-                    <img src={icon_trash} alt="delete" />
-                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(data.id)}
+                  >
                 </td>
               </tr>
             ))}
@@ -122,41 +144,48 @@ const MeterTable: React.FC = observer(() => {
         </table>
         <div className="el_end pagination">
           <div className="pagination_block">
-          <button 
-          onClick={() => handlePageChange(currentPage - 1)} 
-          disabled={currentPage === 1}
-        >
-          &#10094;
-        </button>
-        {startPage > 1 && (
-          <>
-            <button onClick={() => handlePageChange(1)}>1</button>
-            {startPage > 2 && <span>...</span>}
-          </>
-        )}
-        {getPageNumbers().map(number => (
-          <button 
-            key={number} 
-            onClick={() => handlePageChange(number)} 
-            style={{ margin: '0 5px', fontWeight: number === currentPage ? 'bold' : 'normal' }}
-          >
-            {number}
-          </button>
-        ))}
-        {startPage + PAGE_NUMBERS_TO_SHOW - 1 < totalPages && (
-          <>
-            {startPage + PAGE_NUMBERS_TO_SHOW - 1 < totalPages - 1 && <span>...</span>}
-            <button onClick={() => handlePageChange(totalPages)}>{totalPages}</button>
-          </>
-        )}
-        <button 
-          onClick={() => handlePageChange(currentPage + 1)} 
-          disabled={currentPage === totalPages}
-        >
-          &#10095;
-        </button>
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &#10094;
+            </button>
+            {startPage > 1 && (
+              <>
+                <button onClick={() => handlePageChange(1)}>1</button>
+                {startPage > 2 && <span>...</span>}
+              </>
+            )}
+            {getPageNumbers().map((number) => (
+              <button
+                key={number}
+                onClick={() => handlePageChange(number)}
+                style={{
+                  margin: '0 5px',
+                  fontWeight: number === currentPage ? 'bold' : 'normal',
+                }}
+              >
+                {number}
+              </button>
+            ))}
+            {startPage + PAGE_NUMBERS_TO_SHOW - 1 < totalPages && (
+              <>
+                {startPage + PAGE_NUMBERS_TO_SHOW - 1 < totalPages - 1 && (
+                  <span>...</span>
+                )}
+                <button onClick={() => handlePageChange(totalPages)}>
+                  {totalPages}
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &#10095;
+            </button>
           </div>
-      </div>
+        </div>
       </div>
     </div>
   );
