@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
 // Логирование запросов
 axiosInstance.interceptors.request.use(
   (request) => {
-    console.log('Starting Request', request);
     return request;
   },
   (error) => {
@@ -19,7 +18,6 @@ axiosInstance.interceptors.request.use(
 // Логирование ответов
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log('Response:', response);
     return response;
   },
   (error) => {
