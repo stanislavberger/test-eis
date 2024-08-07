@@ -8,6 +8,7 @@ import icon_trash from '../assets/img/trash.svg';
 const ITEMS_PER_PAGE = 20; //quantity of elements
 const PAGE_NUMBERS_TO_SHOW = 6; // quantity of pages
 
+
 const MeterTable: React.FC = observer(() => {
   const store = useStore();
   const [currentPage, setCurrentPage] = useState(1);
@@ -136,8 +137,6 @@ const MeterTable: React.FC = observer(() => {
                     className="delete-btn"
                     onClick={() => handleDelete(data.id)}
                   >
-                    <img src={icon_trash} alt="delete" />
-                  </button>
                 </td>
               </tr>
             ))}

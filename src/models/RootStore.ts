@@ -75,6 +75,7 @@ const RootModel = types
         console.error('Failed to delete meter', error);
       }
     }),
+
   }));
 
 export interface IRootModel extends Instance<typeof RootModel> {}
