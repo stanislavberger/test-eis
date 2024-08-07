@@ -133,10 +133,12 @@ const MeterTable: React.FC = observer(() => {
                 <td className="el_center">{data.address}</td>
                 <td className="el_center">{data.description}</td>
                 <td className="el_center">
-                  <button
+                 <button
                     className="delete-btn"
                     onClick={() => handleDelete(data.id)}
                   >
+                    <img src={icon_trash} alt="delete" />
+                  </button>
                 </td>
               </tr>
             ))}
