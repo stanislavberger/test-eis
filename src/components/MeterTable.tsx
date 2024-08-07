@@ -5,18 +5,23 @@ import icon_cold from "../assets/img/icon_counters_1.svg"
 import icon_hot from "../assets/img/icon_counters_4.svg"
 import icon_trash from "../assets/img/trash.svg"
 
+
 const ITEMS_PER_PAGE = 20;
-const PAGE_NUMBERS_TO_SHOW = 6; // Количество страниц для отображения
+const PAGE_NUMBERS_TO_SHOW = 6;
 
 const MeterTable: React.FC = observer(() => {
   const store = useStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [startPage, setStartPage] = useState(1);
 
+  const ids = store.meters.map(meter => meter.area.id);
+  const limit = store.limit
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
   useEffect(() => {
     store.fetchMeters(currentPage);
-    store.fetchAreas();
-  }, [currentPage, store]);
+    store.fetchAreas(ids, limit);
+  }, [currentPage, store, ids, limit, offset]);
 
   // Address from /test/areas
   const getHouseDetails = (areaId: string) => {
@@ -37,7 +42,8 @@ const MeterTable: React.FC = observer(() => {
       isAutomatic: meter.is_automatic ? "Да" : "Нет",
       initialValues: meter.initial_values.join(', '),
       address: `${address}, ${strNumberFull}`,
-      description: meter.description
+      description: meter.description,
+      id: meter.id,
     };
   });
 
@@ -67,6 +73,10 @@ const MeterTable: React.FC = observer(() => {
     if (page === startPage + PAGE_NUMBERS_TO_SHOW - 1 && page < totalPages) {
       setStartPage(startPage + 1);
     }
+  };
+
+  const handleDelete = (meterId: string) => {
+    store.deleteMeter(meterId);
   };
 
   return (
@@ -102,7 +112,9 @@ const MeterTable: React.FC = observer(() => {
                 <td className="el_center">{data.address}</td>
                 <td className="el_center">{data.description}</td>
                 <td className="el_center">
-                  <img src={icon_trash} alt="" />
+                  <button className="delete-btn" onClick={() => handleDelete(data.id)}>
+                    <img src={icon_trash} alt="delete" />
+                  </button>
                 </td>
               </tr>
             ))}
