@@ -21,3 +21,5 @@
 ```npm run dev```
    
 ## Ньюансы: на endpoint /areas/ есть запрет запроса со стороны сервера
+
+![image](https://github.com/user-attachments/assets/f8f7b7c3-f14c-4d54-af99-bbd917c9342a)
