@@ -7,7 +7,7 @@ const RootModel = types
     meters: types.array(Meter),
     areas: types.array(Area),
     houses: types.array(House),
-    limit: 100,
+    limit: 20,
     offset: 20,
     currentPageMeters: 1,
     currentPageAreas: 1,
