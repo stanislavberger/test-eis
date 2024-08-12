@@ -1,10 +1,17 @@
 import axios from 'axios';
+import { setup } from 'axios-cache-adapter';
+
+const cache = setup({
+  maxAge: 15 * 60 * 1000,
+  clearOnStale: true
+})
 
 const axiosInstance = axios.create({
   baseURL: 'http://showroom.eis24.me/api/v4/',
+  adapter: cache.adapter,
 });
 
-// Логирование запросов
+// log request
 axiosInstance.interceptors.request.use(
   (request) => {
     return request;
@@ -15,7 +22,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Логирование ответов
+// log responsenpm
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
